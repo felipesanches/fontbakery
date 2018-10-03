@@ -2042,15 +2042,34 @@ def test_check_156():
     assert status == FAIL
 
 
-def NOT_IMPLEMENTED_test_check_157():
+def test_check_157():
   """ Check name table: FONT_FAMILY_NAME entries. """
-  # from fontbakery.specifications.googlefonts import com_google_fonts_check_157 as check
-  # TODO: Implement-me!
-  #
-  # code-paths:
-  # - FAIL, "Font should not have a certain name table entry."
-  # - FAIL, "Bad familyname value on a FONT_FAMILY_NAME entry."
-  # - PASS
+  from fontbakery.constants import (NAMEID_FONT_FAMILY_NAME,
+                                    PLATFORM_ID__MACINTOSH,
+                                    PLATFORM_ID__WINDOWS)
+  from fontbakery.specifications.googlefonts import (com_google_fonts_check_157 as check,
+                                                     familyname_with_spaces,
+                                                     style)
+  test_cases = [
+    (PASS, "data/test/cabin/Cabin-Regular.ttf",               None), # "Cabin"
+    (FAIL, "data/test/cabin/Cabin-Regular.ttf",               "Wrong"),
+    (PASS, "data/test/overpassmono/OverpassMono-Regular.ttf", "Overpass Mono"),
+    (PASS, "data/test/overpassmono/OverpassMono-Bold.ttf",    "Overpass Mono"),
+    (FAIL, "data/test/overpassmono/OverpassMono-Regular.ttf", "Foo"),
+  ]
+
+  for expected, filename, value in test_cases:
+    ttFont = TTFont(filename)
+    for i, name in enumerate(ttFont['name'].names):
+      if name.nameID == NAMEID_FONT_FAMILY_NAME:
+        if value:
+          ttFont['name'].names[i].string = value.encode(name.getEncoding())
+    print (f"Test {expected} with filename='{filename}', value='{value}', style='{style(filename)}'...")
+    status, message = list(check(ttFont,
+                                 style(filename),
+                                 familyname_with_spaces(filename)))[-1]
+    del ttFont
+    assert status == expected
 
 
 def NOT_IMPLEMENTED_test_check_158():
