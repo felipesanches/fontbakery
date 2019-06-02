@@ -5,11 +5,15 @@
 
 # [![Font Bakery](data/logo.png)](https://fontbakery.com)
 
-Font Bakery is a command-line tool for checking the quality of font projects. 
-It currently comes with checks for OpenType files, at 3 levels: 
-Format specifications, distributor requirements, and custom checks.
+Font Bakery is a command-line tool for checking the quality of font projects.
+For a quick overview, check out the list of checks currently offered.
+https://font-bakery.readthedocs.io/en/latest/fontbakery/profiles/index.html
 
-For a full introduction, [check out the Typecon 2018 presentation deck](https://docs.google.com/presentation/d/14dU3cUXelwvpVokhKYmJ6jT51AASDaOFyEUSdxb0RAg/).
+For a full introduction, [check out our documentation at Read The Docs]
+
+
+
+ Typecon 2018 presentation deck](https://docs.google.com/presentation/d/14dU3cUXelwvpVokhKYmJ6jT51AASDaOFyEUSdxb0RAg/).
 
 Font Bakery has an active community of contributors from foundries around the world, including Adobe Fonts, Dalton Maag, Type Network, and Google Fonts. Please join our developer chat channel at https://gitter.im/fontbakery/Lobby
 
