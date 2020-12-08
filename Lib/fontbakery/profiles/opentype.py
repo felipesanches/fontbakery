@@ -51,6 +51,7 @@ OPENTYPE_PROFILE_CHECKS = [
     'com.google.fonts/check/varfont/stat_axis_record_for_each_axis',
     'com.google.fonts/check/loca/maxp_num_glyphs',
     'com.adobe.fonts/check/cff2_call_depth',
+    'com.google.fonts/check/cff2_nonlatin_bluevalues',
     'com.adobe.fonts/check/cff_call_depth',
     'com.adobe.fonts/check/cff_deprecated_operators',
     'com.google.fonts/check/font_version',

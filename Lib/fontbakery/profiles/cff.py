@@ -98,6 +98,7 @@ def _analyze_cff(analysis, top_dict, private_dict, fd_index=0):
         if info.get('saw_dotsection'):
             analysis.glyphs_dotsection.append(glyph_name)
 
+
 @condition
 def cff_analysis(ttFont):
 
@@ -134,9 +135,12 @@ def cff_analysis(ttFont):
 
     return analysis
 
+
 @check(
     id = 'com.adobe.fonts/check/cff_call_depth',
-    conditions = ['ttFont', 'is_cff', 'cff_analysis'],
+    conditions = ['ttFont',
+                  'is_cff',
+                  'cff_analysis'],
     rationale = """
         Per "The Type 2 Charstring Format, Technical Note #5177", the "Subr nesting, stack limit" is 10.
     """
@@ -163,7 +167,9 @@ def com_adobe_fonts_check_cff_call_depth(cff_analysis):
 
 @check(
     id = 'com.adobe.fonts/check/cff2_call_depth',
-    conditions = ['ttFont', 'is_cff2', 'cff_analysis'],
+    conditions = ['ttFont',
+                  'is_cff2',
+                  'cff_analysis'],
     rationale = """
         Per "The CFF2 CharString Format", the "Subr nesting, stack limit" is 10.
     """
@@ -190,7 +196,9 @@ def com_adobe_fonts_check_cff2_call_depth(cff_analysis):
 
 @check(
     id = 'com.adobe.fonts/check/cff_deprecated_operators',
-    conditions = ['ttFont', 'is_cff', 'cff_analysis'],
+    conditions = ['ttFont',
+                  'is_cff',
+                  'cff_analysis'],
     rationale = """
         The 'dotsection' operator and the use of 'endchar' to build accented
         characters from the Adobe Standard Encoding Character Set ("seac") are
@@ -218,3 +226,24 @@ def com_adobe_fonts_check_cff_deprecated_operators(cff_analysis):
 
     if not any_failures:
         yield PASS, 'No deprecated CFF operators used.'
+
+
+@check(
+    id = 'com.google.fonts/check/cff2_nonlatin_bluevalues',
+    conditions = ['ttFont',
+                  'is_cff2'],
+    rationale = """
+        For non-Latin 1000-UPM fonts, a /BlueValues array of [-250 -250 1100 1100] is advised.
+
+        Alignment zones are helpful when the letterforms have stems that align to a consistent Y-axis value, such as the Latin baseline, x-height, and cap-height. For scripts that have no such alignment, such as East Asian ones, alignment zones are usually a detriment.
+        -- Ken Lunde, https://twitter.com/ken_lunde/status/1335251046277386240
+    """
+)
+def com_google_fonts_check_cff2_nonlatin_bluevalues(ttFont):
+    """Advised BlueValues for non-latin fonts."""
+
+    import ipdb; ipdb.set_trace()
+    if 1:
+        yield WARN, \
+              Message('foo',
+                      f'bar: {ttFont["CFF2"]}!')
