@@ -2,6 +2,10 @@ syntax = "proto2";
 
 /**
  * Open Source'd font metadata proto formats.
+ *
+ * This schema was determined empirically by observing
+ * existing METADATA.pb files in the google/fonts repository.
+ *
  */
 package google.fonts;
 
@@ -21,7 +25,26 @@ message FamilyProto {
   repeated AxisSegmentProto axes = 10;
   map<string, float> registry_default_overrides = 11;
   optional SourceProto source = 12;
+  bool is_noto = 13;
+  repeated string languages = 14;
+  repeated SampleGlyphsProto sample_glyphs = 15;
+  repeated SampleTextProto sample_text = 16;
 };
+
+message SampleGlyphsProto {
+  required string key = 1;
+  required string value = 1;
+}
+
+message SampleTextProto {
+  optional string masthead_full = 1;
+  optional string masthead_partial = 2;
+  optional string styles = 3;
+  optional string tester = 4;
+  optional string poster_sm = 5;
+  optional string poster_md = 6;
+  optional string poster_lg = 7;
+}
 
 message FontProto {
   required string name = 1;

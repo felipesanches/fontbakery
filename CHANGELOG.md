@@ -6,6 +6,7 @@ A more detailed list of changes is available in the corresponding milestones for
   - Now one can invoke Font Bakery with different filetypes (other than just TTFs or OTFs) and the checks will run or skip based on file-type. (issue #3169)
   - For this reason, `UFO Source` checks are now included in the `Universal` profile. (issue #3439)
   - We'll likely have source-level (GlyphsApp) checks soon using this mechanism.
+  - Update `fonts_public.proto` based on new fields found on METAEDATA.pb files of the google/fonts repo. (issue #3443)
 
 ### Changes to existing checks
 #### On the Universal Profile
