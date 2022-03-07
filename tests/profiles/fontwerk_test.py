@@ -66,3 +66,18 @@ def test_check_inconsistencies_between_fvar_stat():
     assert_results_contain(check(ttFont),
                            FAIL, 'missing-fvar-instance-axis-value',
                            'missing in STAT table')
+
+
+def test_check_style_linking():
+    check = CheckTester(fontwerk_profile,
+                        'com.fontwerk/check/style_linking')
+
+    ttFont = TTFont(TEST_FILE("bad_fonts/style_linking_issues/NotoSans-BoldItalic.ttf"))
+
+    assert_results_contain(check(ttFont),
+                           FAIL, 'style-linking-issue',
+                           'should be (most likely)')
+
+    ttFont = TTFont(TEST_FILE("bad_fonts/style_linking_issues/NotoSans-MediumItalic.ttf"))
+    assert_PASS(check(ttFont),
+                "Style linking looks good.")
