@@ -223,9 +223,11 @@ def com_fontwerk_check_style_linking(ttFont):
                 yield FAIL, Message("style-linking-issue", err)
 
     if is_italic(ttFont):
+        if ("post" in ttFont and not ttFont["post"].italicAngle):
+            ERRS.append("post talbe italic angle should be (most likely) different to 0.")
         if not (ttFont["OS/2"].fsSelection & FsSelection.ITALIC):
             ERRS.append("OS/2 fsSelection flag should be (most likely) 'Italic'.")
-        if not (ttFont["head"].macStyle & MacStyle.BOLD):
+        if not (ttFont["head"].macStyle & MacStyle.ITALIC):
             ERRS.append("head macStyle flag should be (most likely) 'Italic'.")
         if ttFont["name"].getDebugName(2) not in ('Italic', 'Bold Italic'):
             name_id_2_should_be = 'Italic'
