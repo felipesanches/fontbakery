@@ -218,10 +218,6 @@ def com_fontwerk_check_style_linking(ttFont):
                 name_id_2_should_be = 'Bold Italic'
             errs.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
 
-        if errs:
-            for err in errs:
-                yield FAIL, Message("style-linking-issue", err)
-
     if is_italic(ttFont):
         if ("post" in ttFont and not ttFont["post"].italicAngle):
             errs.append("post talbe italic angle should be (most likely) different to 0.")
@@ -236,7 +232,7 @@ def com_fontwerk_check_style_linking(ttFont):
             errs.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
 
     if not errs:
-        return PASS, "Style linking looks good."
+        yield PASS, "Style linking looks good."
 
     for err in errs:
         yield FAIL, Message("style-linking-issue", err)

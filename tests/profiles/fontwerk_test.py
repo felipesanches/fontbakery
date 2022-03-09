@@ -73,7 +73,11 @@ def test_check_style_linking():
                         'com.fontwerk/check/style_linking')
 
     ttFont = TTFont(TEST_FILE("bad_fonts/style_linking_issues/NotoSans-BoldItalic.ttf"))
+    assert_results_contain(check(ttFont),
+                           FAIL, 'style-linking-issue',
+                           'should be (most likely)')
 
+    ttFont = TTFont(TEST_FILE("bad_fonts/style_linking_issues/NotoSans-Bold.ttf"))
     assert_results_contain(check(ttFont),
                            FAIL, 'style-linking-issue',
                            'should be (most likely)')
