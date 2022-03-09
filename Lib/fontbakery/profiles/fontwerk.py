@@ -201,44 +201,44 @@ def com_fontwerk_check_inconsistencies_between_fvar_stat(ttFont):
     rationale = """
         Look for possible style linking issues.
     """,
-    proposal = 'https://github.com/googlefonts/gftools/issues/477'
+    proposal = ''
 )
 def com_fontwerk_check_style_linking(ttFont):
-    """Checking style linking relevant entries in various font tables."""
+    """Checking style linking entries"""
 
-    ERRS = []
+    errs = []
     if is_bold(ttFont):
         if not (ttFont["OS/2"].fsSelection & FsSelection.BOLD):
-            ERRS.append("OS/2 fsSelection flag should be (most likely) 'Bold'.")
+            errs.append("OS/2 fsSelection flag should be (most likely) 'Bold'.")
         if not (ttFont["head"].macStyle & MacStyle.BOLD):
-            ERRS.append("head macStyle flag should be (most likely) 'Bold'.")
+            errs.append("head macStyle flag should be (most likely) 'Bold'.")
         if ttFont["name"].getDebugName(2) not in ('Bold', 'Bold Italic'):
             name_id_2_should_be = 'Bold'
             if is_italic(ttFont):
                 name_id_2_should_be = 'Bold Italic'
-            ERRS.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
+            errs.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
 
-        if ERRS:
-            for err in ERRS:
+        if errs:
+            for err in errs:
                 yield FAIL, Message("style-linking-issue", err)
 
     if is_italic(ttFont):
         if ("post" in ttFont and not ttFont["post"].italicAngle):
-            ERRS.append("post talbe italic angle should be (most likely) different to 0.")
+            errs.append("post talbe italic angle should be (most likely) different to 0.")
         if not (ttFont["OS/2"].fsSelection & FsSelection.ITALIC):
-            ERRS.append("OS/2 fsSelection flag should be (most likely) 'Italic'.")
+            errs.append("OS/2 fsSelection flag should be (most likely) 'Italic'.")
         if not (ttFont["head"].macStyle & MacStyle.ITALIC):
-            ERRS.append("head macStyle flag should be (most likely) 'Italic'.")
+            errs.append("head macStyle flag should be (most likely) 'Italic'.")
         if ttFont["name"].getDebugName(2) not in ('Italic', 'Bold Italic'):
             name_id_2_should_be = 'Italic'
             if is_italic(ttFont):
                 name_id_2_should_be = 'Bold Italic'
-            ERRS.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
+            errs.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
 
-    if not ERRS:
+    if not errs:
         return PASS, "Style linking looks good."
 
-    for err in ERRS:
+    for err in errs:
         yield FAIL, Message("style-linking-issue", err)
 
 
