@@ -201,7 +201,7 @@ def com_fontwerk_check_inconsistencies_between_fvar_stat(ttFont):
     rationale = """
         Look for possible style linking issues.
     """,
-    proposal = ''
+    proposal = 'https://github.com/googlefonts/noto-fonts/issues/2269'
 )
 def com_fontwerk_check_style_linking(ttFont):
     """Checking style linking entries"""
