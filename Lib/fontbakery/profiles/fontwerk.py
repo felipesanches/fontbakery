@@ -6,7 +6,6 @@ from fontbakery.callable import check
 from fontbakery.section import Section
 from fontbakery.status import PASS, FAIL
 from fontbakery.fonts_profile import profile_factory
-from fontbakery.profiles.shared_conditions import is_bold, is_italic
 from fontbakery.message import Message
 from fontbakery.profiles.googlefonts import GOOGLEFONTS_PROFILE_CHECKS
 from fontbakery.constants import FsSelection, MacStyle
@@ -203,7 +202,7 @@ def com_fontwerk_check_inconsistencies_between_fvar_stat(ttFont):
     """,
     proposal = 'https://github.com/googlefonts/noto-fonts/issues/2269'
 )
-def com_fontwerk_check_style_linking(ttFont):
+def com_fontwerk_check_style_linking(ttFont, is_italic, is_bold):
     """Checking style linking entries"""
 
     errs = []
@@ -227,7 +226,7 @@ def com_fontwerk_check_style_linking(ttFont):
             errs.append("head macStyle flag should be (most likely) 'Italic'.")
         if ttFont["name"].getDebugName(2) not in ('Italic', 'Bold Italic'):
             name_id_2_should_be = 'Italic'
-            if is_italic(ttFont):
+            if is_bold(ttFont):
                 name_id_2_should_be = 'Bold Italic'
             errs.append(f"name ID should be (most likely) '{name_id_2_should_be}'.")
 
