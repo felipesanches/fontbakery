@@ -1201,8 +1201,12 @@ def com_google_fonts_check_license_OFL_copyright(license_contents):
     if does_match:
         yield PASS, "looks good"
     else:
-        yield FAIL, (f'First line in license file does not match expected format:'
-                     f' "{string}"')
+        yield FAIL,\
+              Message('bad-format',
+                      f'First line in license file is:\n\n'
+                      f'"{string}"\n\n'
+                      f'which does not match the expected format, similar to:\n\n'
+                      f'"Copyright 2022 The Familyname Project Authors (git url)"')
 
 
 @check(
@@ -2857,20 +2861,8 @@ def com_google_fonts_check_metadata_match_weight_postscript(font_metadata):
     conditions = ['font_metadata'],
     proposal = 'legacy:check/115'
 )
-def com_google_fonts_check_metadata_canonical_style_names(ttFont, font_metadata):
+def com_google_fonts_check_metadata_canonical_style_names(ttFont, is_italic, font_metadata):
     """METADATA.pb: Font styles are named canonically?"""
-    from fontbakery.constants import MacStyle
-
-    def find_italic_in_name_table():
-        for entry in ttFont["name"].names:
-            if entry.nameID < 256 and "italic" in entry.string.decode(entry.getEncoding()).lower():
-                return True
-        return False
-
-    def is_italic():
-        return (ttFont["head"].macStyle & MacStyle.ITALIC or
-                ttFont["post"].italicAngle or
-                find_italic_in_name_table())
 
     if font_metadata.style not in ["italic", "normal"]:
         yield SKIP, ('This check only applies to font styles declared'

@@ -483,28 +483,42 @@ def is_indic_font(ttFont):
     return False
 
 
+def keyword_in_full_font_name(keyword):
+    from fontbakery.constants import (MacStyle,
+                                      NameID)
+    for entry in ttFont["name"].names:
+        if entry.nameID == NameID.FULL_FONT_NAME and \
+           keyword in entry.string.decode(entry.getEncoding()).split().lower():
+            return True
+    return False
+
+
 @condition
 def is_italic(ttFont):
+    from fontbakery.constants import (FsSelection,
+                                      MacStyle)
     return (
-        ttFont["OS/2"].fsSelection & FsSelection.ITALIC
+        ("OS/2" in ttFont and ttFont["OS/2"].fsSelection & FsSelection.ITALIC)
+        or ("head" in ttFont and ttFont["head"].macStyle & MacStyle.ITALIC)
+        or keyword_in_full_font_name("italic")
         or ("post" in ttFont and ttFont["post"].italicAngle)
-        or ttFont["head"].macStyle & MacStyle.ITALIC
-        or ('italic' in ttFont["name"].getDebugName(4).lower().split())
+    )
+
+
+@condition
+def is_bold(ttFont):
+    from fontbakery.constants import (FsSelection,
+                                      MacStyle)
+    return (
+        ("OS/2" in ttFont and ttFont["OS/2"].fsSelection & FsSelection.BOLD)
+        or ("head" in ttFont and ttFont["head"].macStyle & MacStyle.BOLD)
+        or keyword_in_full_font_name("bold")
     )
 
 
 @condition
 def is_not_italic(ttFont):
     return not is_italic(ttFont)
-
-
-@condition
-def is_bold(ttFont):
-    return (
-        ttFont["OS/2"].fsSelection & FsSelection.BOLD
-        or ttFont["head"].macStyle & MacStyle.BOLD
-        or ('bold' in ttFont["name"].getDebugName(4).lower().split())
-    )
 
 
 @condition

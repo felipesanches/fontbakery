@@ -3,10 +3,34 @@ A more detailed list of changes is available in the corresponding milestones for
 
 
 ## Upcoming release: 0.8.9 (2022-Apr-??)
-  - ...
+### Noteworthy code-changes
+  - Improve implementation of `is_italic` condition and provide an `is_bold` counterpart (issue #3693)
+
+### BugFixes
+  - Users reading markdown reports are now directed to the "stable" version of our ReadTheDocs documentation instead of the "latest" (git dev) one. (issue #3677)
+  - Improve rendering of bullet lists (issue #3691)
+
+### Changes to existing checks
+#### On the GoogleFonts Profile
+  - **[com.google.fonts/check/license/OFL_copyright]:** Improve wording of log message to clarify its meaning. It was too easy to think that the displayed copyright string (read from the font binary and reported for reference) was an example of the actually expected string format. (issue #3674)
+#### On the Universal Profile
+  - **[com.google.fonts/check/gpos7]:** Previously we checked for the existence of GSUB 5 lookups in the erroneous belief that they were not supported; GPOS 7 lookups are not supported in CoreText, but GSUB 5 lookups are fine. (issue #3689)
+
+### New Checks
+#### Added to the Noto Fonts Profile
+  - The majority of checks from the Google Fonts profile have been added. (PR #3681)
+  - **[com.google.fonts/check/name/noto_manufacturer]:** Checks for a known manufacturer name and correct designer URL in the name table. (PR #3681)
+  - **[com.google.fonts/check/name/noto_designer]:** Checks for a known designer name. (PR #3681)
+  - **[com.google.fonts/check/name/noto_trademark]:** Checks that the trademark entry in the name table is correct. (PR #3681)
+  - **[com.google.fonts/check/cmap/format_12]:** Checks that format 12 cmap tables are used appropriately. (PR #3681)
+  - **[com.google.fonts/check/os2/noto_vendor]:** Checks that the vendor ID in the OS/2 table is set to GOOG. (PR #3681)
+  - **[com.google.fonts/check/hmtx/encoded_latin_digits]:** Checks that any encoded Latin digits have equal advance width. (PR #3681)
+  - **[com.google.fonts/check/hmtx/comma_period]:** Checks that the comma and period glyphs have the same advance width as each other. (PR #3681)
+  - **[com.google.fonts/check/hmtx/whitespace_advances]:** Checks that whitespace glyphs have expected advance widths. (PR #3681)
+  - **[com.google.fonts/check/cmap/alien_codepoints]:** Checks that there are no surrogate pair or private use area codepoints encoded in the cmap table. (PR #3681)
 
 
-## Upcoming release: 0.8.8 (2022-Mar-23)
+## 0.8.8 (2022-Mar-23)
 ### Noteworthy code-changes
   - On the GitHub Markdown reporter, checks which produce all the same output for a range of fonts are now automatically clustered into a family check result. (PR #3610)
   - More cosmetic improvements to the GitHub Markdown reporter. (PR #3647)
@@ -27,7 +51,7 @@ A more detailed list of changes is available in the corresponding milestones for
   - **[com.google.fonts/check/gsub5_gpos7]:** Check if font contains any GSUB 5 or GPOS 7 lookups which are not widely supported. (issue #3643)
 
 ### Changes to existing checks
-#### On the Univeresal Profile
+#### On the Universal Profile
   - **[com.google.fonts/check/dotted_circle]:** Fix ERROR by adding safeguard conditional on `is_complex_shaper_font` function. (issue #3640)
   - **[com.google.fonts/check/repo/upstream_yaml_has_required_fields]:** Remove repository_url field check since METADATA.pb files now include the source field. (issue #3618)
 
