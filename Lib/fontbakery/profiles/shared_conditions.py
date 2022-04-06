@@ -5,7 +5,6 @@ from collections import Counter
 from fontbakery.callable import condition
 # used to inform get_module_profile whether and how to create a profile
 from fontbakery.fonts_profile import profile_factory # NOQA pylint: disable=unused-import,cyclic-import
-from fontbakery.constants import FsSelection, MacStyle, NameID
 
 @condition
 def ttFont(font):
@@ -39,6 +38,8 @@ def is_cff2(ttFont):
 @condition
 def variable_font_filename(ttFont):
     from fontbakery.utils import get_name_entry_strings
+    from fontbakery.constants import (MacStyle,
+                                      NameID)
     familynames = get_name_entry_strings(ttFont, NameID.FONT_FAMILY_NAME)
     typo_familynames = get_name_entry_strings(ttFont, NameID.TYPOGRAPHIC_FAMILY_NAME)
     if familynames == []:
