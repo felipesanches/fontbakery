@@ -189,6 +189,7 @@ FONT_FILE_CHECKS = [
     'com.google.fonts/check/varfont/consistent_axes',
     'com.google.fonts/check/varfont/unsupported_axes',
     'com.google.fonts/check/varfont/grade_reflow',
+    'com.google.fonts/check/varfont/wdth_origin_not_100',
     'com.google.fonts/check/gf_axisregistry/fvar_axis_defaults',
     'com.google.fonts/check/STAT/gf_axisregistry',
     'com.google.fonts/check/STAT/axis_order',
@@ -6426,6 +6427,30 @@ def com_google_fonts_check_metadata_category_hint(family_metadata):
                      f'Familyname seems to hint at "{inferred_category}" but'
                      f' METADATA.pb declares it as "{family_metadata.category}".')
     else:
+       yield PASS, "OK."
+
+
+@check(
+    id = "com.google.fonts/check/varfont/wdth_origin_not_100",
+    rationale = """
+        Marc Foley needs this for a test.
+    """,
+    conditions = ["is_variable_font"],
+    proposal = 'private chat request'
+)
+def com_google_fonts_check_varfont_wdth_origin_not_100(ttFont):
+    """Check if wdth axis origin value isn't 100."""
+
+    ok = True
+    for axis in ttFont['fvar'].axes:
+        if axis.axisTag == 'wdth':
+            if axis.defaultValue != 100:
+                ok = False
+                yield INFO,\
+                      Message('not-100',
+                              f'Wdth origin not 100.\n'
+                              f'DefaultValue = {axis.defaultValue}')
+    if ok:
        yield PASS, "OK."
 
 
