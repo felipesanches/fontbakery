@@ -106,9 +106,9 @@ def com_google_fonts_check_iso15008_proportions(ttFont):
                       "There was no 'H' glyph in the font,"
                       " so the proportions could not be tested")
 
-    h_glyph = glyphset["H"]
+    h_glyph, _ = glyphset["H"]._getGlyphAndOffset()
     pen = BoundsPen(glyphset)
-    h_glyph._glyph.draw(pen, ttFont.get("glyf"))
+    h_glyph.draw(pen, ttFont.get("glyf"))
     (xMin, yMin, xMax, yMax) = pen.bounds
     proportion = (xMax - xMin) / (yMax - yMin)
     if 0.65 <= proportion <= 0.80:
